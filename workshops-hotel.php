@@ -1,0 +1,113 @@
+<?php
+/**********************************************/
+$w_id = $_GET['workshop'];
+$hotel_set = $_POST['hotel'];
+include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
+/**********************************Delete Hotel Foreign Key from Workshop table to reset the Hotel for the given workshop***************************************/
+if ($_GET['chg'] == 1) {
+$change_hotel_q = "UPDATE workshop SET hotels_id_fk = 0 WHERE ID = $w_id LIMIT 1";
+$change_hotel_result = mysql_query($change_hotel_q) or die(mysql_error());
+}
+/**********************************Marry Hotel to the Workshop (set the Foreign Key)***************************************/
+if ($_POST['hotel']) {
+$hotel_set_q = "UPDATE workshop SET hotels_id_fk = $hotel_set WHERE ID = $w_id LIMIT 1";
+$hotel_set_result = mysql_query($hotel_set_q) or die(mysql_error());
+}
+include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
+include($_SERVER['DOCUMENT_ROOT'].'/workshops/workshop_hotel_variables.php');
+
+
+/******************Workshop information invocation from database to pre-fill the form***************************/
+
+
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Choose a hotel for a workshop</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style type="text/css">
+<!--
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+h4 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: -15px;
+}
+
+-->
+</style>
+</head>
+
+<body><main style="margin-left:20px; margin-right:20px;">
+<?php
+if (!$workshop_q_row->hotels_id_fk) {
+echo '<form  id=hotelXworkshop name="form_hotelsXworkshop" method="POST" action="http://www.seriouslyfunnyscience.com/workshops/workshops-hotel.php?workshop=' . "$w_id" .'"><table cellspacing="0" border="1" cellpadding="10">';
+for($i = 0; $i < $hotel_id_numofrows; $i++){
+$hotel_q_row = mysql_fetch_array($hotel_q_result);
+echo "<tr><td><label><input type=\"radio\" name=\"hotel\" value=\"" . "$hotel_q_row[hotels_id]" . "\"></label></td><td><h4>" . "$hotel_q_row[hotels_name]</h4><br />$hotel_q_row[hotels_address]<br /><strong>$hotel_q_row[hotels_city]</strong> $hotel_q_row[hotels_state], $hotel_q_row[hotels_zip]<br />Main #: $hotel_q_row[hotels_main_phone]<br />Catering # or Extension: $hotel_q_row[hotels_cat_phone] <br />Fax #: $hotel_q_row[hotels_fax]<br />Contact Name: <input name=\"hotel_contact\" type=\"text\" size=\"23\" maxlength=\"30\" value=\"$hotel_q_row[hotels_contact]\" /><br />Contact e-mail: <a href=\"mailto:$hotel_q_row[hotels_email]\">$hotel_q_row[hotels_email]</a><br />Room Size: <input name=\"hotel_room_size\" type=\"text\" size=\"4\" maxlength=\"5\" value=\"$hotel_q_row[hotels_meet_room_sq_ft]\" />, Room Price: <input name=\"hotel_room_price\" type=\"text\" size=\"5\" maxlength=\"7\" value=\"$hotel_q_row[hotels_meet_room_price]\" /><br />Directions Link: <a href=\"$hotel_q_row[hotels_dir_link]\">link</a><br />Rating: $hotel_q_row[hotels_] <br /><em>Notes:</em> <br /><textarea name=\"hotel_notes\" cols=\"34\" rows=\"3\">$hotel_q_row[hotels_notes]</textarea> " . "</td></tr>\n";
+}
+echo '</table><br /><input name="submit" type="submit" value="Submit" /></form>';
+}
+else {
+$hotel_q_fk_row = mysql_fetch_array($hotel_q_fk_result);
+echo '<div><p>This hotel has been chosen for this workshop. <a href="http://www.seriouslyfunnyscience.com/workshops/workshops-hotel.php?workshop='."$w_id".'&chg=1">Change</a></p></div>';
+echo '<table cellspacing="0" border="1" cellpadding="10">';
+echo "<tr><td><h4>" . "$hotel_q_fk_row[hotels_name]</h4><br />$hotel_q_fk_row[hotels_address]<br /><strong>$hotel_q_fk_row[hotels_city]</strong> $hotel_q_fk_row[hotels_state], $hotel_q_fk_row[hotels_zip]<br />Main #: $hotel_q_fk_row[hotels_main_phone]<br />Catering # or Extension: $hotel_q_fk_row[hotels_cat_phone] <br />Fax #: $hotel_q_fk_row[hotels_fax]<br />Contact Name: $hotel_q_fk_row[hotels_contact]<br />Contact e-mail: <a href=\"mailto:$hotel_q_row[hotels_email]\">$hotel_q_row[hotels_email]</a><br />Room Size: $hotel_q_fk_row[hotels_meet_room_sq_ft], Room Price: $hotel_q_fk_row[hotels_meet_room_price]<br />Directions Link: <a href=\"$hotel_q_fk_row[hotels_dir_link]\">Right-click and copy link.</a><br />Rating: $hotel_q_fk_row[hotels_rating] <br /><em>Hotel Notes:</em> <br />$hotel_q_fk_row[hotels_notes] " . "</td></tr>\n";
+
+echo '</table>';
+//echo "<br /><div><p></p></div>";
+}
+
+/****************************************************************************Below is reference stuff for copy and paste.*****************************************************************************/
+/*if (!$_POST['submit']) {
+echo $wkshp_insrt_frm;
+echo "<strong>Speaker:</strong><br /><br /><select name=\"speaker\" id=\"day\"><option selected=\"selected\" value=\"\">Choose a Speaker</option>";
+for($i = 0; $i < $numofrows_speaker_query; $i++){
+$s_name_row = @mysql_fetch_array($result_speaker_query);
+echo '<option value=';
+echo "\"$s_name_row[s_name]\"";
+echo '>';
+echo "$s_name_row[s_name]";
+echo '</option> ';
+}
+
+echo "</select><p><input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit\" /></p></form>";
+}
+
+/*****************************Second Part of the Form (After the Button has been pressed)*********************************/
+/*else {
+
+$my_fill_query_wkshp = "INSERT INTO workshop (ID , season , year , state , city , workshop_name , wdate , speaker , cancelled , link ) VALUES ( '' , '$w_i_season' , '$w_i_year' , '$w_i_state' , '$w_i_city' , '$w_i_workshop_name' , '$w_i_date' , '$w_i_speaker' , '$w_i_cancelled' , '$w_i_link')";
+ 
+  $wkshp_fill_result = mysql_query($my_fill_query_wkshp) or die ("Error in query: $my_fill_query_wkshp. " . mysql_error());
+  // print result
+  
+  //Woo Hoo, Attendant has been added
+  
+  echo '<p>The following workshop has been added to the database: <br />';
+  echo $w_i_workshop_name . ', in ' . $w_i_city . ', ' . $w_i_state . ' on: ' . $w_i_date ;
+  echo '</p>';
+  echo $wkshp_insrt_frm;
+  echo "<strong>Speaker:</strong><br /><br /><select name=\"speaker\" id=\"day\"><option selected=\"selected\" value=\"\">Choose a Speaker</option>";
+for($i = 0; $i < $numofrows_speaker_query; $i++){
+$s_name_row = @mysql_fetch_array($result_speaker_query);
+echo '<option value=';
+echo "\"$s_name_row[s_name]\"";
+echo '>';
+echo "$s_name_row[s_name]";
+echo '</option> ';
+
+}
+echo "</select><p><input type=\"submit\" name=\"submit\" id=\"submit\" value=\"Submit\" /></p></form>";
+} */
+
+?>
+</main></body>
+</html>
