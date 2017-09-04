@@ -5,6 +5,7 @@ $db_p = 'Workshops9462';
 $db_n = 'looselabwork';
 //$thispage = $_SERVER['PHP_SELF'];
 /*Connect variable $link created*/
+if (!$link)
 $link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
 
 /*database is chosen*/
