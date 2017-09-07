@@ -1,6 +1,8 @@
 <?php
 /**********************************************/
-
+if(!isset($_COOKIE['ID_LooseInTheLab'])){
+    header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php");
+}
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/db_conn.php');
 //$city = $_GET['cities'];
 //$wname = $_GET['w_name'];

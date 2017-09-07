@@ -1,7 +1,10 @@
 <?php
 /**********************************************/
 
-include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
+if(!isset($_COOKIE['ID_LooseInTheLab'])){
+    header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php");
+}
+require_once($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
 
 $city = $_GET['cities'];
 $wname = $_GET['w_name'];
@@ -11,7 +14,6 @@ $payment = $_POST['payment'];
 $pay_id = $_POST['pay_ID'];
 
 /**********Above, are the global variables.***********/
-
 $table = 'attendees';
 
 /***********Above, are the Form variables************/
@@ -57,9 +59,18 @@ p {
 }
 
 </style>-->
+
+    <?php
+    echo $bootstrapLink;
+    echo $jQueryLink;
+    echo $fontAwesomeLink;
+    echo $cssLink;
+    ?>
 </head>
 
-<body><main style="margin-left:20px; margin-right:20px;">
+<body>
+<div class="container">
+<section>
 <?php
 echo '<h1>There are ';
 echo $numofrows;
@@ -79,6 +90,12 @@ echo ' records in the Attendees table.</h1>';
 <!--<a href="http://www.seriouslyfunnyscience.com/workshops/e-mail1.php">Mass E-mail to all attendees of the workshops which have already happened.</a><br />
 <a href="http://www.seriouslyfunnyscience.com/workshops/e-mail2.php">Mass E-mail to all attendees of the workshops which have NOT YET happened.</a><br />
 <a href="http://www.seriouslyfunnyscience.com/workshops/e-mail-catalogs.php">Mass E-mail to everyone who signed up to receive a catalog.</a>-->
-</p></main>
+</p></section>
+<?php echo $navigation = new site_nav(); ?>
+<footer>
+    <p>Copyright 2017 Loose in the Lab</p>
+    <div id="testing"></div>
+</footer>
+</div>
 </body>
 </html>
