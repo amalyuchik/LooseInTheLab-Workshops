@@ -46,7 +46,8 @@ if (isset($_POST['submit'])) {
     }
 
 // here we encrypt the password and add slashes if needed
-    $_POST['pass'] = md5($_POST['pass']);
+    $_POST['pass'] = hash(sha256, $_POST['pass']."Add the following salt:".$_POST['email'], false);
+    //$_POST['pass'] = md5($_POST['pass']);
     if (!get_magic_quotes_gpc()) {
         $_POST['pass'] = addslashes($_POST['pass']);
         $_POST['username'] = addslashes($_POST['username']);
@@ -81,10 +82,10 @@ else
                     <input type="text" name="username" maxlength="60">
                 </td></tr>
             <tr><td>Password:</td><td>
-                    <input type="password" name="pass" maxlength="10">
+                    <input type="password" name="pass" maxlength="50">
                 </td></tr>
             <tr><td>Confirm Password:</td><td>
-                    <input type="password" name="pass2" maxlength="10">
+                    <input type="password" name="pass2" maxlength="50">
                 </td></tr>
             <tr><th colspan=2><input type="submit" name="submit" value="Register"></th></tr> </table>
     </form>

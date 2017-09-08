@@ -49,15 +49,14 @@ if (isset($_POST['submit']))
     {
         $_POST['pass'] = stripslashes($_POST['pass']);
         $info['password'] = stripslashes($info['password']);
-        $_POST['pass'] = md5($_POST['pass']);
+        $_POST['pass'] = hash(sha256, $_POST['pass']."Add the following salt:".$info['user_email'], false);
 
-        echo $_POST['pass'] . "<- Post \r\n";
-        echo $info['password'] . "<- Info";
 
         //gives error if the password is wrong
         if ($_POST['pass'] != $info['password'])
         {
-            die('Incorrect password, please try again.');
+            header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php?wp=1");
+            //die('Incorrect password, please try again.');
         }
         else
         {
@@ -94,10 +93,10 @@ else
         <table border="0">
             <tr><td colspan=2><h1>Loose in the Lab Admin Login</h1></td></tr>
             <tr><td>Username:</td><td>
-                    <input type="text" name="username" maxlength="40">
+                    <input type="text" name="username" <?php if ($_GET['wp'] == 1) { echo " class=\"login_failed\" ";} ?> maxlength="40">
                 </td></tr>
             <tr><td>Password:</td><td>
-                    <input type="password" name="pass" maxlength="50">
+                    <input type="password" name="pass" <?php if ($_GET['wp'] == 1) { echo " class=\"login_failed\" ";} ?> maxlength="50">
                 </td></tr>
             <tr><td colspan="2" align="right">
                     <input type="submit" name="submit" value="Login">
