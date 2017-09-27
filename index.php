@@ -91,7 +91,8 @@ echo ' records in the Attendees table.</h1>';
 <a href="http://www.seriouslyfunnyscience.com/workshops/e-mail2.php">Mass E-mail to all attendees of the workshops which have NOT YET happened.</a><br />
 <a href="http://www.seriouslyfunnyscience.com/workshops/e-mail-catalogs.php">Mass E-mail to everyone who signed up to receive a catalog.</a>-->
 </p></section>
-<?php echo $navigation = new site_nav(); ?>
+    <?php /** @var TYPE_NAME $navigation */
+    echo $navigation = new site_nav(); ?>
 <footer>
     <p>Copyright 2017 Loose in the Lab</p>
     <div id="testing"></div>
