@@ -1,5 +1,7 @@
 <?php
+//session_start();
 require_once($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
+
 //include($_SERVER['DOCUMENT_ROOT'].'/global_variables.php');
 //include($_SERVER['DOCUMENT_ROOT'].'/queries.php');
 //Checks if there is a login cookie
@@ -8,10 +10,11 @@ if(isset($_COOKIE['ID_LooseInTheLab']))
     //if there is, it logs you in and directs you to the members page
     $username = $_COOKIE['ID_LooseInTheLab'];
     $pass = $_COOKIE['Key_LooseInTheLab'];
-    $check = mysql_query("SELECT * FROM user_auth WHERE username = '$username'")or die(mysql_error());
-    while($info = mysql_fetch_array( $check ))
+    $pass_sess = $_SESSION['user']->user_password;
+    $check = mysqli_query($link,"SELECT * FROM user_auth WHERE username = '$username'")or die(mysql_error());
+    while($info = mysqli_fetch_array( $check ))
     {
-        if ($pass != $info['password'])
+        if (!$pass_sess)// != $info['password']
         {
             header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php");
         }
@@ -37,15 +40,15 @@ if (isset($_POST['submit']))
     {
         $_POST['email'] = addslashes($_POST['email']);
     }
-    $check = mysql_query("SELECT * FROM user_auth WHERE username = '".$_POST['username']."'")or die(mysql_error());
+    $check = mysqli_query($link,"SELECT * FROM user_auth WHERE username = '".$_POST['username']."'")or die(mysql_error());
 
     //Gives error if user dosen't exist
-    $check2 = mysql_num_rows($check);
+    $check2 = mysqli_num_rows($check);
     if ($check2 == 0)
     {
         die('That user does not exist in our database. Try again or contact <a href="mailto:andrei.malyuchik@gmail.com?subject=I need help registering on Loose in the Lab admin site.">Andrei.</a>');
     }
-    while($info = mysql_fetch_array( $check ))
+    while($info = mysqli_fetch_array( $check ))
     {
         $_POST['pass'] = stripslashes($_POST['pass']);
         $info['password'] = stripslashes($info['password']);
@@ -60,15 +63,35 @@ if (isset($_POST['submit']))
         }
         else
         {
-            // if login is ok then we add a cookie
+            $info['password'] = true;
+
+            //session_start();
+//            echo session_id();
+            //session_destroy();
+//            echo "---<br />";
+//            echo session_id();
+//            echo "---<br />";
+
+            // if login is ok then we add a cookie and create a user object
             $_POST['username'] = stripslashes($_POST['username']);
             $hour = time() + 3600;
+
+            if ($_SESSION['user'] == null) {
+                //$user = new user_authentication($info);
+                $_SESSION['user'] = new user_authentication($info);
+            }
+
+            //$_SESSION['user'] = $_SESSION['user']->get_typed_object($info);
             setcookie(ID_LooseInTheLab, $_POST['username'], $hour);
             setcookie(Key_LooseInTheLab, $_POST['pass'], $hour);
-
+//            echo "<br />---<br />";
+            $_SESSION['ID'] = session_id();
+//            var_dump($_SESSION);
             //then redirect them to the members area
             header("Location: http://www.seriouslyfunnyscience.com/workshops/");
         }
+
+
     }
 }
 else
@@ -89,6 +112,7 @@ else
 </head>
 
 <body>
+
 <div class="form-group" style="width:320px; margin-top:50px; display:block; margin-left:auto; margin-right:auto;"><form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
         <table border="0">
             <tr><td colspan=2><h1>Loose in the Lab Admin Login</h1></td></tr>
