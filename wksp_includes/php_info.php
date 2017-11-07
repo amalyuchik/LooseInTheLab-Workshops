@@ -1,4 +1,6 @@
 <?php
+session_save_path($_SERVER['DOCUMENT_ROOT'].'/sessions/');
+session_start();
 /**
  * Created by IntelliJ IDEA.
  * User: amalyuchik

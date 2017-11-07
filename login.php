@@ -78,14 +78,15 @@ if (isset($_POST['submit']))
 
             if ($_SESSION['user'] == null) {
                 //$user = new user_authentication($info);
+                //echo var_export($info, true);
                 $_SESSION['user'] = new user_authentication($info);
             }
 
             //$_SESSION['user'] = $_SESSION['user']->get_typed_object($info);
-            setcookie(ID_LooseInTheLab, $_POST['username'], $hour);
-            setcookie(Key_LooseInTheLab, $_POST['pass'], $hour);
+            setcookie(ID_LooseInTheLab, $_POST['username'], $hour,"/");
+            setcookie(Key_LooseInTheLab, $_POST['pass'], $hour, "/");
 //            echo "<br />---<br />";
-            $_SESSION['ID'] = session_id();
+            //$_SESSION['ID'] = session_id();
 //            var_dump($_SESSION);
             //then redirect them to the members area
             header("Location: http://www.seriouslyfunnyscience.com/workshops/");

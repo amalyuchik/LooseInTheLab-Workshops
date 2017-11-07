@@ -1,5 +1,7 @@
 <?php
-//session_start();
+session_save_path($_SERVER['DOCUMENT_ROOT'].'/sessions/');
+require_once($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/auth/user_authentication.php');//must be required before session starts for proper data serialization/deserializeation
+session_start();
 /**
  * Created by IntelliJ IDEA.
  * User: amalyuchik
@@ -8,7 +10,6 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/db_conn.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/auth/user_authentication.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/kit_db/includes/form_element_classes/select_input.php');
 require_once($_SERVER['DOCUMENT_ROOT']."/kit_db/includes/site_nav.php");
 $bootstrapLink = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';

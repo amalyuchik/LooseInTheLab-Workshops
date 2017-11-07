@@ -87,10 +87,10 @@ $numofrows = mysqli_num_rows($result);
     <footer>
         <p><?php
             if (!$_SESSION)
-            {}else {
+            {echo 'Session is broken';}
+            else {
                 echo $_SESSION['user']->user_first_name . " " . $_SESSION['user']->user_last_name . " is logged in as " . $_SESSION['user']->username . ".";
-                var_dump($_SESSION);
-                echo session_id();
+                //var_dump($_SESSION);
             }
             ?></p>
         <p>Copyright 2017 Loose in the Lab</p>
