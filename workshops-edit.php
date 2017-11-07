@@ -8,6 +8,7 @@ $d = date('Y-m-d');
 $season_logic = date('n');
 
 $w_id = $_GET['workshop'];
+
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/workshop_hotel_variables.php');
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wkshp-insrt-frm.php');
@@ -50,8 +51,8 @@ if (isset($_POST['submit'])){
 <?php
 if (!$_POST['submit']) {
 $w_update_query = "SELECT * FROM workshop WHERE ID = $workshop_id";
-$w_update_result = mysql_query($w_update_query) or die ("Error in query: $w_update_query. " . mysql_error());
-$w_update_row = mysql_fetch_array($w_update_result);
+$w_update_result = mysqli_query($link,$w_update_query) or die ("Error in query: $w_update_query. " . mysql_error());
+$w_update_row = mysqli_fetch_array($w_update_result);
 
 if ("$w_update_row[cancelled]" == 0) {
 $cancel_status = 1;
@@ -200,7 +201,7 @@ $delete_undelete = 'Undelete';
 //echo "<strong>Speaker:</strong><br /><br /><select class=\"form-control\" style=\"width: 250px;\" name=\"speaker\" id=\"day\"><option selected=\"selected\" value=\"\">Choose a Speaker</option>";
 $speakers_array = array();
 for($i = 0; $i < $numofrows_speaker_query; $i++){
-$s_name_row = mysql_fetch_array($result_speaker_query);
+$s_name_row = mysqli_fetch_array($result_speaker_query);
 //echo '<option value=';
 //echo "\"$s_name_row[s_name]\"";
 $speaker_detail = array("ID"=>"$s_name_row[ID]","data"=>$s_name_row[s_name]);

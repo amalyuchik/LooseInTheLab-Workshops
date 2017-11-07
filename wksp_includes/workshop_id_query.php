@@ -1,22 +1,24 @@
 <?php
+
 /***************************************************************************************************************/
 $workshop_id_query = "SELECT * FROM workshop WHERE ID = '$w_id' ";
-$workshop_q_result = mysql_query($workshop_id_query) or die(mysql_error());
-$workshop_id_numofrows = mysql_num_rows($workshop_q_result);
-$workshop_q_row = mysql_fetch_object($workshop_q_result);
+$workshop_q_result = mysqli_query($link,$workshop_id_query) or die(mysql_error());
+//$workshop_q_result = mysql_query($workshop_id_query) or die(mysql_error());
+$workshop_id_numofrows = mysqli_num_rows($workshop_q_result);
+$workshop_q_row = mysqli_fetch_object($workshop_q_result);
 /********The above code is needed in workshops_db.php and workshops-edit.php files for the workshop name and date header line and to prefill the workshop edit form.**********/
 
 /***************************************************************************************************************/
 $hotel_id_query = "SELECT * FROM hotels WHERE hotels_state = '$workshop_q_row->state' AND hotels_city = '$workshop_q_row->city' ORDER BY hotels_city ASC, hotels_rating DESC ";
-$hotel_q_result = mysql_query($hotel_id_query) or die(mysql_error());
-$hotel_id_numofrows = mysql_num_rows($hotel_q_result);
+$hotel_q_result = mysqli_query($link,$hotel_id_query) or die(mysql_error());
+$hotel_id_numofrows = mysqli_num_rows($hotel_q_result);
 //$hotel_q_row = mysql_fetch_object($hotel_q_result);
 /********The above code is needed in workshops-edit.php file to get all of the hotels for the given state to pair them up with the workshop.**********/
 
 /***************************************************************************************************************/
 $hotel_id_fk_query = "SELECT * FROM hotels WHERE hotels_id = '$workshop_q_row->hotels_id_fk' ORDER BY hotels_city ASC, hotels_rating DESC ";
-$hotel_q_fk_result = mysql_query($hotel_id_fk_query) or die(mysql_error());
-$hotel_id_fk_numofrows = mysql_num_rows($hotel_q_fk_result);
+$hotel_q_fk_result = mysqli_query($link,$hotel_id_fk_query) or die(mysql_error());
+$hotel_id_fk_numofrows = mysqli_num_rows($hotel_q_fk_result);
 
 /********The above code is needed in workshops-edit.php file to get all of the hotels for the given state to pair them up with the workshop.**********/
 

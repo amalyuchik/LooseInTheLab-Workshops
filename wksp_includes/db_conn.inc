@@ -6,7 +6,8 @@ $db_n = 'looselabwork';
 //$thispage = $_SERVER['PHP_SELF'];
 /*Connect variable $link created*/
 if (!$link)
-$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+//$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+    $link = new mysqli($db_h, $db_u, $db_p, $db_n);
 
 /*database is chosen*/
 

@@ -38,14 +38,15 @@ $submit = $_POST['submit'];
 
 
 $table_query = "SELECT state FROM workshop WHERE ID = '$w_id' ";
-$table_result = mysql_query($table_query) or die(mysql_error());
-$table_numofrows = @mysql_num_rows($table_result);
-$table_row = mysql_fetch_array($table_result);
+echo $table_query;
+$table_result = mysqli_query($link,$table_query) or die(mysql_error());
+$table_numofrows = @mysqli_num_rows($table_result);
+$table_row = mysqli_fetch_array($table_result);
 
 $city_query = "SELECT city FROM workshop WHERE ID = '$w_id' ";
-$city_result = mysql_query($city_query) or die(mysql_error());
-$city_numofrows = mysql_num_rows($city_result);
-$city_row = mysql_fetch_array($city_result);
+$city_result = mysqli_query($link,$city_query) or die(mysql_error());
+$city_numofrows = mysqli_num_rows($city_result);
+$city_row = mysqli_fetch_array($city_result);
 $w_city = "$city_row[city]";
 
 /**************Form Queries***********************/
@@ -61,21 +62,21 @@ $my_query_workshop_id = "SELECT * FROM workshop WHERE wdate >= NOW() AND cancell
 
 
 
-$result_city = mysql_query($my_query_city) or die(mysql_error());
-$result_w_name = mysql_query($my_query_w_name) or die(mysql_error());
-$result_date = mysql_query($my_query_date) or die(mysql_error());
-$result_state = mysql_query($my_query_state) or die(mysql_error());
-$result_speaker = mysql_query($my_query_speaker) or die(mysql_error());
-$result_workshop_id = mysql_query($my_query_workshop_id) or die(mysql_error());
+$result_city = mysqli_query($link,$my_query_city) or die(mysql_error());
+$result_w_name = mysqli_query($link,$my_query_w_name) or die(mysql_error());
+$result_date = mysqli_query($link,$my_query_date) or die(mysql_error());
+$result_state = mysqli_query($link,$my_query_state) or die(mysql_error());
+$result_speaker = mysqli_query($link,$my_query_speaker) or die(mysql_error());
+$result_workshop_id = mysqli_query($link,$my_query_workshop_id) or die(mysql_error());
 
 /*MySQL query is made*/
 
-$numofrows_city = mysql_num_rows($result_city);
-$numofrows_w_name = mysql_num_rows($result_w_name);
-$numofrows_date = mysql_num_rows($result_date);
-$numofrows_state = mysql_num_rows($result_state);
-$numofrows_speaker = mysql_num_rows($result_speaker);
-$numofrows_workshop_id = mysql_num_rows($result_workshop_id);
+$numofrows_city = mysqli_num_rows($result_city);
+$numofrows_w_name = mysqli_num_rows($result_w_name);
+$numofrows_date = mysqli_num_rows($result_date);
+$numofrows_state = mysqli_num_rows($result_state);
+$numofrows_speaker = mysqli_num_rows($result_speaker);
+$numofrows_workshop_id = mysqli_num_rows($result_workshop_id);
 /*$numofrows variable created to tell PHP how many rows are there in the query output*/
 
 /***********End of functions and operators***************/
@@ -110,7 +111,7 @@ if (!$_POST['submit']) {
 
 for($i = 0; $i < $numofrows_workshop_id; $i++){
 $j=$i+1;
-$row = mysql_fetch_array($result_workshop_id);
+$row = mysqli_fetch_array($result_workshop_id);
 $workshp_date = date('M d, Y', strtotime($row['wdate']));
 echo("\n<input type=\"checkbox\" name=\"workshop\" id=\"Workshop\" value=\"" . "$row[ID]" . "\" /><label>" . "$j" . " &bull; " . "$row[city]" . ", " . "$row[state]" . " &bull; ". "$row[workshop_name]" . " &bull; " . "$workshp_date" . ", " . "$row[speaker]" . "</label><br />");
 }
@@ -158,14 +159,14 @@ else {$coupon = 1;}
  {
 // generate and execute query
 $state_check_fill_query = "SELECT * FROM workshop WHERE ID = $w_id";
-$state_check_fill_result = mysql_query($state_check_fill_query) or die ("Error in query: $my_fill_query_attend. " . mysql_error());
-$state_check_fill_row = mysql_fetch_array($state_check_fill_result);
+$state_check_fill_result = mysqli_query($link,$state_check_fill_query) or die ("Error in query: $my_fill_query_attend. " . mysql_error());
+$state_check_fill_row = mysqli_fetch_array($state_check_fill_result);
 $confirm_date = date('M d, Y', strtotime($state_check_fill_row['wdate']));
 
 
 $my_fill_query_attend = "INSERT INTO attendees (ID , last_name , first_name , school , e_mail , invoice , phone , w_name , w_id , w_date , w_city , w_state , zip , w_speaker, coupon_rec, pre_paid, paid, timestamp ) VALUES ( '' , '$l_name' , '$f_name' , '$school' , '$e_mail' , '$invoice' , '$phone' , '$w_name' , '$w_id' , '$w_date' , '$w_city' , '$state_check_fill_row[state]' , $zip , '$w_speaker' , '$coupon' , '$paid' , '$paid', NOW())";
  
-  $attendee_fill_result_attend = mysql_query($my_fill_query_attend) or die ("Error in query: $my_fill_query_attend. " . mysql_error());
+  $attendee_fill_result_attend = mysqli_query($link,$my_fill_query_attend) or die ("Error in query: $my_fill_query_attend. " . mysql_error());
   // print result
   
   /***************Below are the e-mail variables***********/
@@ -221,7 +222,7 @@ mail($to, $subject, $message, $headers);
 
 for($i = 0; $i < $numofrows_workshop_id; $i++){
 $j=$i+1;
-$row = mysql_fetch_array($result_workshop_id);
+$row = mysqli_fetch_array($result_workshop_id);
 $workshp_date = date('M d, Y', strtotime($row['wdate']));
 echo("\n<input type=\"checkbox\" name=\"workshop\" id=\"Workshop\" value=\"" . "$row[ID]" . "\" /><label>" . "$j" . " &bull; " . "$row[city]" . ", " . "$row[state]" . " &bull; " . "$row[workshop_name]" . " &bull; ". "$workshp_date" . ", " . "$row[speaker]" . "</label><br />");
 }
@@ -235,7 +236,7 @@ echo("\n<input type=\"checkbox\" name=\"workshop\" id=\"Workshop\" value=\"" . "
 
   // close database connection
 
-  mysql_close($link);
+  mysqli_close($link);
 }
 
  else

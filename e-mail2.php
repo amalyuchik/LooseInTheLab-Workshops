@@ -18,7 +18,7 @@ $table = 'attendees';
 
 $my_query = "SELECT DISTINCT e_mail FROM attendees WHERE w_date > NOW() ";//Just need to fix the query after I set up the table.
 
-$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+//$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
 
 /*Connect variable $link created*/
 

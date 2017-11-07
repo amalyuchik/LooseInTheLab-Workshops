@@ -1,8 +1,8 @@
 <?php 
 $table_speaker_name = 'speaker_names';
 $query_speaker_names = "SELECT * FROM $table_speaker_name ORDER BY s_name ASC";
-$result_speaker_query = mysql_query($query_speaker_names) or die(mysql_error());
-$numofrows_speaker_query = mysql_num_rows($result_speaker_query);
+$result_speaker_query = mysqli_query($link,$query_speaker_names) or die(mysql_error());
+$numofrows_speaker_query = mysqli_num_rows($result_speaker_query);
 
 $wkshp_insrt_frm = <<<EOINSRTFRM
 <form id="workshop-add" name="workshop-add" action="http://www.seriouslyfunnyscience.com/workshops/workshops-add.php" method="post">

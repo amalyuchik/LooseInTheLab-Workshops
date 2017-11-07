@@ -56,7 +56,7 @@ if (!$_POST['submit'])
 
  // open database connection
  
-$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+//$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
 
 /*Connect variable $link created*/
 
@@ -216,7 +216,7 @@ $errorList = array();
   // open database connection
 
  
-$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+//$link = @mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
 
 /*Connect variable $link created*/
 

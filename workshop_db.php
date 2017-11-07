@@ -167,7 +167,7 @@ $extra_numofrows = $numofrows + 7;
 
 /*$numofrows variable created to tell PHP how many rows are there in the query output*/
  if ($_GET['list'] == sign_in) {
- include('workshop_id_query.php');
+ include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
  echo '<h5>Please sign this attendance list for: ';
  echo $workshop_q_row->workshop_name;
  echo ' in ';
@@ -197,7 +197,7 @@ for($i = 0; $i < $extra_numofrows; $i++)
 //include($_SERVER['DOCUMENT_ROOT'].'/new_out.inc');
 }
 else {
-include('workshop_id_query.php');
+include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
 $workshp_date = date('M d, Y', strtotime($workshop_q_row->wdate));
 echo '<h5>This list contains teachers\' ';
  echo "$list";

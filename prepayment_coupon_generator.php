@@ -32,18 +32,18 @@ $year = $_GET['year'];
 
 $my_query_workshop_id = "SELECT * FROM workshop WHERE wdate >= NOW() AND cancelled = 0 ORDER BY city, wdate ASC ";
 
-$link = mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
+//$link = mysql_connect($db_h, $db_u, $db_p) or die(mysql_error());
 
 /*Connect variable $link created*/
 
-mysql_select_db($db_n, $link) or die(mysql_error());
+mysqli_select_db($link,$db_n) or die(mysql_error());
 
 /*database is chosen*/
-$result_workshop_id = mysql_query($my_query_workshop_id) or die(mysql_error());
+$result_workshop_id = mysqli_query($link,$my_query_workshop_id) or die(mysql_error());
 
 /*MySQL query is made*/
 
-$numofrows_workshop_id = mysql_num_rows($result_workshop_id);
+$numofrows_workshop_id = mysqli_num_rows($result_workshop_id);
 
 /*$numofrows variable created to tell PHP how many rows are there in the query output*/
 
@@ -127,11 +127,14 @@ echo (", " . "$row[speaker]" . "</label></td></tr></div>");
 echo "</table>";
 /**Query below joins the two tables (attendees and workshop) and counts all the attendees which have "zero" in their deleted field and w_id field within range of the current season and year and not in a cancelled workshop.**/
 $att_count_query = "SELECT COUNT(*) FROM attendees INNER JOIN workshop ON attendees.w_id=workshop.ID AND attendees.deleted=0 WHERE workshop.season = '$season' AND workshop.year = '$year' AND cancelled = 0";
-$att_result_count = mysql_query($att_count_query) or die(mysql_error());
-$att_count_row = mysql_fetch_row($att_result_count);
+$att_result_count = mysqli_query($link,$att_count_query) or die(mysql_error());
+$att_count_row = mysqli_fetch_row($att_result_count);
 echo "<p>We have <strong style=\"color: #900000;\"> $att_count_row[0] </strong> attendees registered this season.</p>";
 echo "<p>Average attendees per workshop: <strong style=\"color: #900000;\"> ";
-$avg_att = $att_count_row[0]/$j;
+if($i > 0)
+    $avg_att = $att_count_row[0]/$j;
+else
+    $avg_att = 0;
 $avg_round_off = round($avg_att, 2);
 echo $avg_round_off;
 echo " </strong> </p>";

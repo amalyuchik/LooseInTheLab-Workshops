@@ -5,7 +5,7 @@ if(!isset($_COOKIE['ID_LooseInTheLab'])){
 }
 $w_id = $_GET['workshop'];
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
-include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/wksp_includes/workshop_id_query.php');
+include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/workshop_hotel_variables.php');
 
 
