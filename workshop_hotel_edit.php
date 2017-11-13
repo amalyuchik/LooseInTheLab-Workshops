@@ -1,7 +1,8 @@
 <?php
 if(!isset($_COOKIE['ID_LooseInTheLab'])){
-    header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php");
+    //header("Location: http://www.seriouslyfunnyscience.com/workshops/login.php");
 }
+var_dump($_COOKIE);
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/globals.php');
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/workshop_hotel_variables.php');
 include($_SERVER['DOCUMENT_ROOT'].'/workshops/wksp_includes/workshop_id_query.php');
@@ -40,11 +41,11 @@ $year = $_GET['year'];
 
 $my_query_hotels_city_state_id = "SELECT DISTINCT hotels_city, hotels_state FROM hotels ORDER BY hotels_state, hotels_city ASC ";
 
-$result_hotels_city_state_id = mysql_query($my_query_hotels_city_state_id) or die(mysql_error());
+$result_hotels_city_state_id = mysqli_query($link,$my_query_hotels_city_state_id) or die(mysql_error());
 
 /*MySQL query is made*/
 
-$numofrows_hotels_city_state_id = mysql_num_rows($result_hotels_city_state_id);
+$numofrows_hotels_city_state_id = mysqli_num_rows($result_hotels_city_state_id);
 
 /*$numofrows variable created to tell PHP how many rows are there in the query output*/
 
@@ -128,7 +129,7 @@ echo "<p><strong>We have hotels in following states and cities:</strong></p>";
 echo "<table cellspacing=\"0\" width=\"750\">";
 for($i = 0; $i < $numofrows_hotels_city_state_id; $i++){
 $j = $i+1;
-$row = mysql_fetch_array($result_hotels_city_state_id);
+$row = mysqli_fetch_array($result_hotels_city_state_id);
 echo "\n<tr ";
 
 /*
@@ -159,18 +160,18 @@ $my_query_hotels_id = "SELECT * FROM hotels WHERE hotels_state = '$hotels_state'
 else {
 $my_query_hotels_id = "SELECT * FROM hotels WHERE hotels_city = '$hotels_city' AND hotels_state = '$hotels_state' ORDER BY hotels_id ASC ";
 }
-$result_hotels_id = mysql_query($my_query_hotels_id) or die(mysql_error());
+$result_hotels_id = mysqli_query($link,$my_query_hotels_id) or die(mysql_error());
 
 /*MySQL query is made*/
 
-$numofrows_hotels_id = mysql_num_rows($result_hotels_id);
+$numofrows_hotels_id = mysqli_num_rows($result_hotels_id);
 
 /*$numofrows variable created to tell PHP how many rows are there in the query output*/
 echo "";
 echo '<table cellspacing="0" border="1" cellpadding="10">';
 for($i = 0; $i < $numofrows_hotels_id; $i++){
 $j = $i+1;
-$hotel_q_row = mysql_fetch_array($result_hotels_id);
+$hotel_q_row = mysqli_fetch_array($result_hotels_id);
 //echo "\n<table cellspacing=\"0\" width=\"750\"><tr ";
 /*
 if ($row[wdate] <= $d)
@@ -215,10 +216,10 @@ echo "<p><a href=\"http://seriouslyfunnyscience.com/workshops/hotel_data_fill.ph
 /**************************Beginning of a page with the hotel Edit form***********************************/
 elseif (!$_GET['hotels_city'] && $_GET['submit']==Go) {
 $my_query_hotels_id_edit = "SELECT * FROM hotels WHERE hotels_id = '$h_id'";
-$result_hotels_id_edit = mysql_query($my_query_hotels_id_edit) or die(mysql_error());
-$numofrows_hotels_id_edit = mysql_num_rows($result_hotels_id_edit);
+$result_hotels_id_edit = mysqli_query($link,$my_query_hotels_id_edit) or die(mysql_error());
+$numofrows_hotels_id_edit = mysqli_num_rows($result_hotels_id_edit);
 /*MySQL query is made*/
-$hotel_q_edit_row = mysql_fetch_array($result_hotels_id_edit);
+$hotel_q_edit_row = mysqli_fetch_array($result_hotels_id_edit);
 
 
 ?>
@@ -320,7 +321,7 @@ Hotel position in city (N, S, E, W, Center, Airport, etc...)</label>
 elseif ($_GET['update'] == 1 && $_GET['submit'] == submit) {
 $hotel_edit_query = "UPDATE hotels SET hotels_name= '$hotels_name', hotels_address= '$hotels_address', hotels_zip= '$hotels_zip', hotels_position= '$hotels_position', hotels_contact= '$hotels_contact', hotels_cat_phone= '$hotels_cat_phone', hotels_main_phone= '$hotels_main_phone', hotels_fax= '$hotels_fax', hotels_email= '$hotels_email', hotels_meet_room_price= '$hotels_meet_room_price', hotels_meet_room_sq_ft= '$hotels_meet_room_sq_ft', hotels_meet_room_max_sq_ft= '$hotels_meet_room_max_sq_ft', hotels_sleep_room_price= '$hotels_sleep_room_price', hotels_danish= '$hotels_danish', hotels_coffee= '$hotels_coffee', hotels_lav= '$hotels_lav', hotels_parking= '$hotels_parking', hotels_service_chrg= '$hotels_service_chrg', hotels_tax= '$hotels_tax', hotels_link= '$hotels_link', hotels_dir_link= '$hotels_dir_link', hotels_shipping_info= '$hotels_shipping_info', hotels_shipping_fee= '$hotels_shipping_fee', hotels_notes= '$hotels_notes' WHERE hotels_id = $h_id LIMIT 1";
 
-$update_hotels_edit = mysql_query($hotel_edit_query) or die ("Error in query: $query. " . mysql_error());
+$update_hotels_edit = mysqli_query($link,$hotel_edit_query) or die ("Error in query: $query. " . mysql_error());
 
 /*****************original listing of the hotels organized by cities and states*******************/
 
@@ -328,7 +329,7 @@ echo "<p><strong>We have hotels in following states and cities:</strong></p>";
 echo "<table cellspacing=\"0\" width=\"750\">";
 for($i = 0; $i < $numofrows_hotels_city_state_id; $i++){
 $j = $i+1;
-$row = mysql_fetch_array($result_hotels_city_state_id);
+$row = mysqli_fetch_array($result_hotels_city_state_id);
 echo "\n<tr ";
 
 /*

@@ -23,7 +23,7 @@ if (!$_POST['submit']) {
 echo $wkshp_insrt_frm;
 echo "<strong>Speaker:</strong><br /><br /><select name=\"speaker\" id=\"day\"><option selected=\"selected\" value=\"\">Choose a Speaker</option>";
 for($i = 0; $i < $numofrows_speaker_query; $i++){
-$s_name_row = mysql_fetch_array($result_speaker_query);
+$s_name_row = mysqli_fetch_array($result_speaker_query);
 echo '<option value=';
 echo "\"$s_name_row[s_name]\"";
 echo '>';
@@ -39,7 +39,7 @@ else {
 
 $my_fill_query_wkshp = "INSERT INTO workshop (ID , season , year , state , city , workshop_name , wdate , speaker , cancelled , link ) VALUES ( '' , '$w_i_season' , '$w_i_year' , '$w_i_state' , '$w_i_city' , '$w_i_workshop_name' , '$w_i_date' , '$w_i_speaker' , '$w_i_cancelled' , '$w_i_link')";
  
-  $wkshp_fill_result = mysql_query($my_fill_query_wkshp) or die ("Error in query: $my_fill_query_wkshp. " . mysql_error());
+  $wkshp_fill_result = mysqli_query($link,$my_fill_query_wkshp) or die ("Error in query: $my_fill_query_wkshp. " . mysql_error());
   // print result
   
   //Woo Hoo, Attendant has been added
@@ -50,7 +50,7 @@ $my_fill_query_wkshp = "INSERT INTO workshop (ID , season , year , state , city 
   echo $wkshp_insrt_frm;
   echo "<strong>Speaker:</strong><br /><br /><select name=\"speaker\" id=\"day\"><option selected=\"selected\" value=\"\">Choose a Speaker</option>";
 for($i = 0; $i < $numofrows_speaker_query; $i++){
-$s_name_row = mysql_fetch_array($result_speaker_query);
+$s_name_row = mysqli_fetch_array($result_speaker_query);
 echo '<option value=';
 echo "\"$s_name_row[s_name]\"";
 echo '>';
